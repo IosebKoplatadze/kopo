@@ -11,14 +11,14 @@
   "license": "MIT",
   "commands": [
     {
-      "name": "adjust-text",
-      "title": "Adjust Selected Text",
+      "name": "kopo",
+      "title": "Kopo",
       "description": "Read selected text, transform it, paste it back",
       "mode": "no-view"
     },
     {
-      "name": "adjust-text-modal",
-      "title": "Adjust Selected Text (Modal)",
+      "name": "kopo-modal",
+      "title": "Kopo (Modal)",
       "description": "Read selected text, transform it, show in a modal",
       "mode": "view"
     }
