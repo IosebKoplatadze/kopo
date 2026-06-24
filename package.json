@@ -11,16 +11,46 @@
   "license": "MIT",
   "preferences": [
     {
-      "name": "model",
-      "title": "AI Model",
-      "description": "Which provider to use for rephrasing",
+      "name": "provider",
+      "title": "Provider",
+      "description": "Which API to use for rephrasing",
       "type": "dropdown",
       "required": false,
-      "default": "claude",
+      "default": "anthropic",
       "data": [
-        { "title": "Claude (Sonnet 4.6)", "value": "claude" },
-        { "title": "ChatGPT (GPT-5.2)", "value": "gpt" }
+        { "title": "Anthropic (Claude)", "value": "anthropic" },
+        { "title": "OpenAI (ChatGPT)", "value": "openai" }
       ]
+    },
+    {
+      "name": "anthropicApiKey",
+      "title": "Anthropic API Key",
+      "description": "From console.anthropic.com (separate from Claude Pro)",
+      "type": "password",
+      "required": false
+    },
+    {
+      "name": "anthropicModel",
+      "title": "Anthropic Model",
+      "description": "Model ID for the Anthropic provider",
+      "type": "textfield",
+      "required": false,
+      "default": "claude-opus-4-8"
+    },
+    {
+      "name": "openaiApiKey",
+      "title": "OpenAI API Key",
+      "description": "From platform.openai.com (separate from ChatGPT Plus)",
+      "type": "password",
+      "required": false
+    },
+    {
+      "name": "openaiModel",
+      "title": "OpenAI Model",
+      "description": "Model ID for the OpenAI provider",
+      "type": "textfield",
+      "required": false,
+      "default": "gpt-4o"
     }
   ],
   "commands": [
@@ -38,8 +68,10 @@
     }
   ],
   "dependencies": {
+    "@anthropic-ai/sdk": "^0.70.0",
     "@raycast/api": "^1.104.20",
-    "@raycast/utils": "^1.17.0"
+    "@raycast/utils": "^1.17.0",
+    "openai": "^6.9.0"
   },
   "devDependencies": {
     "@raycast/eslint-config": "^2.0.4",
