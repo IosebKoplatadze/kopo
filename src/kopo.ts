@@ -1,18 +1,13 @@
 import { Clipboard, getSelectedText, showHUD } from "@raycast/api";
-
-// ponytail: transform is a placeholder (uppercase). Swap this one function for
-// your real adjustment (LLM call, regex cleanup, case change, etc.).
-function adjust(text: string): string {
-  return text.toUpperCase();
-}
+import { rephrase } from "./rephrase";
 
 export default async function main() {
   try {
     const selected = await getSelectedText();
-    const result = adjust(selected);
-    await Clipboard.paste(result); // replaces the selection in the active app
-    await showHUD("Adjusted ✓");
-  } catch {
-    await showHUD("Select some text first");
+    await showHUD("Rephrasing…");
+    await Clipboard.paste(await rephrase(selected)); // replaces the selection
+    await showHUD("Rephrased ✓");
+  } catch (e) {
+    await showHUD(e instanceof Error ? e.message : "Something went wrong");
   }
 }

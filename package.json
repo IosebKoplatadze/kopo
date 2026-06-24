@@ -2,24 +2,38 @@
   "$schema": "https://www.raycast.com/schemas/extension.json",
   "name": "kopo",
   "title": "Kopo",
-  "description": "Transform the selected text and paste it back",
+  "description": "Rephrase the selected text with Claude or ChatGPT (via Raycast Pro)",
   "icon": "extension-icon.png",
   "author": "ioseb",
   "categories": [
     "Productivity"
   ],
   "license": "MIT",
+  "preferences": [
+    {
+      "name": "model",
+      "title": "AI Model",
+      "description": "Which provider to use for rephrasing",
+      "type": "dropdown",
+      "required": false,
+      "default": "claude",
+      "data": [
+        { "title": "Claude (Sonnet 4.6)", "value": "claude" },
+        { "title": "ChatGPT (GPT-5.2)", "value": "gpt" }
+      ]
+    }
+  ],
   "commands": [
     {
       "name": "kopo",
       "title": "Kopo",
-      "description": "Read selected text, transform it, paste it back",
+      "description": "Rephrase selected text and paste it back",
       "mode": "no-view"
     },
     {
       "name": "kopo-modal",
       "title": "Kopo (Modal)",
-      "description": "Read selected text, transform it, show in a modal",
+      "description": "Rephrase selected text and show it in a modal",
       "mode": "view"
     }
   ],

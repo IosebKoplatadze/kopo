@@ -1,27 +1,24 @@
 import { Action, ActionPanel, Detail, getSelectedText } from "@raycast/api";
 import { useEffect, useState } from "react";
-
-// ponytail: same placeholder transform as the paste-back command.
-function adjust(text: string): string {
-  return text.toUpperCase();
-}
+import { rephrase } from "./rephrase";
 
 export default function Command() {
   const [result, setResult] = useState<string | null>(null);
-  const [error, setError] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     getSelectedText()
-      .then((t) => setResult(adjust(t)))
-      .catch(() => setError(true));
+      .then(rephrase)
+      .then(setResult)
+      .catch((e) => setError(e instanceof Error ? e.message : "Something went wrong"));
   }, []);
 
-  if (error) return <Detail markdown="**Select some text first**" />;
+  if (error) return <Detail markdown={`**${error}**`} />;
 
   return (
     <Detail
       isLoading={result === null}
-      markdown={result ?? ""}
+      markdown={result ?? "Rephrasing…"}
       actions={
         result ? (
           <ActionPanel>
