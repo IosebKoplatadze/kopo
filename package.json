@@ -24,44 +24,44 @@
       "type": "textfield",
       "required": false,
       "default": "/Users/ioseb.koplatadze/.nvm/versions/node/v24.16.0/bin/claude"
-    },
-    {
-      "name": "model",
-      "title": "Model (optional)",
-      "description": "Passed to `claude --model` (e.g. sonnet, opus). Blank = your Claude Code default.",
-      "type": "textfield",
-      "required": false,
-      "default": "sonnet"
-    },
-    {
-      "name": "systemPrompt",
-      "title": "System Prompt",
-      "description": "Passed to `claude --system-prompt` — sets overall behavior.",
-      "type": "textfield",
-      "required": false,
-      "default": "You rewrite the user's text. Output only the rewritten text — no preamble, no quotes, no commentary."
-    },
-    {
-      "name": "instruction",
-      "title": "Instruction",
-      "description": "How to rewrite the selection. Use {text} where the selected text goes (appended if omitted).",
-      "type": "textfield",
-      "required": false,
-      "default": "rewrite as a short, friendly, professional slack message in all lowercase, using common abbreviations (u=you, ur=your, ll=i will): {text}"
     }
   ],
   "commands": [
     {
       "name": "kopo",
-      "title": "Kopo",
-      "description": "Rephrase selected text and paste it back",
+      "title": "Kopo – Presets",
+      "description": "Manage rephrase presets and run them on the selected text",
+      "mode": "view"
+    },
+    {
+      "name": "slot-1",
+      "title": "Kopo Slot 1",
+      "description": "Rephrase the selection with preset #1 (assign a hotkey to this)",
       "mode": "no-view"
     },
     {
-      "name": "kopo-modal",
-      "title": "Kopo (Modal)",
-      "description": "Rephrase selected text and show it in a modal",
-      "mode": "view"
+      "name": "slot-2",
+      "title": "Kopo Slot 2",
+      "description": "Rephrase the selection with preset #2 (assign a hotkey to this)",
+      "mode": "no-view"
+    },
+    {
+      "name": "slot-3",
+      "title": "Kopo Slot 3",
+      "description": "Rephrase the selection with preset #3 (assign a hotkey to this)",
+      "mode": "no-view"
+    },
+    {
+      "name": "slot-4",
+      "title": "Kopo Slot 4",
+      "description": "Rephrase the selection with preset #4 (assign a hotkey to this)",
+      "mode": "no-view"
+    },
+    {
+      "name": "slot-5",
+      "title": "Kopo Slot 5",
+      "description": "Rephrase the selection with preset #5 (assign a hotkey to this)",
+      "mode": "no-view"
     }
   ],
   "dependencies": {

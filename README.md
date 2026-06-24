@@ -1,57 +1,60 @@
 # Kopo
 
-A tiny Raycast extension that rewrites your **selected text** — by default into a short, friendly, lowercase Slack message — and pastes it back (or shows it in a modal).
+A tiny Raycast extension that rewrites your **selected text** using configurable **presets** — e.g. "Slack message", "Formal email", "Translate", "Summarize" — and pastes the result back or shows it in a modal.
 
 It runs on your **Claude subscription** via the `claude` CLI (Claude Code), so there's **no API key and no per-token billing**.
 
 ## Commands
 
-- **Kopo** — rephrase the selection and paste it back over it.
-- **Kopo (Modal)** — rephrase and show the result in a window with Copy / Paste actions.
+- **Kopo – Presets** — the manager. Lists your presets; pressing **Enter** rephrases the current selection with the highlighted preset. Create / edit / duplicate / delete / reorder presets right here — no rebuild.
+- **Kopo Slot 1…5** — one per preset *position*. Assign each a **global keyboard shortcut** in Raycast Settings; triggering it rephrases the selection with the preset in that slot (slot N = the Nth preset in the manager list).
+
+## Presets
+
+A preset is `{ name, instruction, systemPrompt, model, mode }`, stored in Raycast's local storage:
+
+- **Instruction** — how to rewrite. Use `{text}` where the selection goes (appended if omitted).
+- **System Prompt** — overall behavior (default keeps output to just the rewritten text).
+- **Model** — `sonnet`, `opus`, … or blank for your Claude Code default.
+- **Output** — paste back over the selection, or show in a modal.
+
+Two presets are seeded on first run ("Slack message", "Formal email"); edit or delete them freely.
+
+## Keyboard shortcuts
+
+- **In the manager:** arrow / type-to-filter to any preset, **Enter** to run. Edit `⌘E`, New `⌘N`, Duplicate `⌘D`, Delete `⌃X`, Move `⌘⌥↑/↓`.
+- **Global:** Raycast Settings → Extensions → Kopo → assign a hotkey to **Kopo Slot 1…5**. Reorder presets in the manager to decide which preset each slot runs. (Need more than 5 global hotkeys? Add more `slot-N` commands.)
 
 ## Setup
 
 1. **Have Claude Code installed and signed in** (`claude` on your PATH, logged in with your Claude Pro/Max subscription).
-2. **Mint a headless token** — GUI apps like Raycast don't inherit your shell login, so Kopo authenticates with an explicit token:
+2. **Mint a headless token** — GUI apps like Raycast don't inherit your shell login:
    ```sh
    claude setup-token
    ```
-   Copy the token it prints.
-3. **Run the extension in dev mode** and keep the terminal open:
+3. **Run in dev mode** and keep the terminal open:
    ```sh
    pnpm install
    pnpm run dev
    ```
-4. In Raycast, open **Kopo → ⌘K → Configure Command** and fill in:
+4. In Raycast, open **Kopo – Presets → ⌘K → Configure Command** and set:
    - **Claude Token** — paste the `setup-token` value.
-   - **Claude CLI Path** — full path to `claude` (run `which claude`); defaults to a typical nvm path. Required because Raycast spawns with a minimal PATH.
-   - **Model** *(optional)* — e.g. `sonnet`, `opus`; blank uses your Claude Code default.
-   - **System Prompt** *(optional)* — passed to `claude --system-prompt`; sets overall behavior.
-   - **Instruction** *(optional)* — how to rewrite the selection; use `{text}` where the selected text goes (appended if omitted).
-
-## Usage
-
-Select text anywhere, then run **Kopo** (paste-back) or **Kopo (Modal)** (preview).
-
-## Customizing the rewrite
-
-No code edit needed — change it in the extension's preferences:
-
-- **Instruction** controls the style (tone, language, format). Put `{text}` where the selected text should be substituted; if you omit it, the selection is appended.
-- **System Prompt** controls overall behavior (the default keeps the output to just the rewritten text).
+   - **Claude CLI Path** — full path to `claude` (`which claude`); required because Raycast spawns with a minimal PATH.
 
 ## How it works
 
-`rephrase()` spawns `claude -p "<prompt>"` with:
+For each run, Kopo spawns `claude -p "<prompt>"` (prompt = the preset's instruction with `{text}` substituted) with:
 
-- `CLAUDE_CODE_OAUTH_TOKEN` set from the **Claude Token** preference (headless auth, no keychain/profile dependency),
+- `--system-prompt` from the preset,
+- `--model` from the preset (if set),
+- `CLAUDE_CODE_OAUTH_TOKEN` from the **Claude Token** preference (headless auth, no keychain/profile dependency),
 - the `claude` binary's own directory prepended to `PATH` so its `#!/usr/bin/env node` shebang finds `node`,
 - `--no-session-persistence` so rephrases don't pile up in Claude Code's thread history,
-- stdin ignored so `claude -p` doesn't block waiting for input.
+- stdin ignored so `claude -p` doesn't block.
 
 ## Notes
 
-- **Subscription, not API key.** This uses your Claude subscription through the official CLI — not the Anthropic API, and not Claude Pro/ChatGPT OAuth (which isn't available to third-party apps).
-- claude will **refuse** to rephrase text that contains secrets (e.g. an `sk-ant-…` token) — that's expected, not a bug.
+- **Subscription, not API key.** Uses your Claude subscription through the official CLI — not the Anthropic API, and not Claude Pro/ChatGPT OAuth (not available to third-party apps).
+- claude **refuses** to rephrase text containing secrets (e.g. an `sk-ant-…` token) — expected, not a bug.
 - Latency: each run cold-starts `claude -p` (a couple seconds).
-- Publishing to the Raycast Store would require a valid `author` (a real raycast.com username) and a 512×512 `assets/extension-icon.png`.
+- Publishing to the Raycast Store would require a valid `author` (a real raycast.com username).
