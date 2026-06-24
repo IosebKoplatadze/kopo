@@ -6,24 +6,28 @@ interface Preferences {
   oauthToken: string;
   claudePath: string;
   model: string;
+  systemPrompt: string;
+  instruction: string;
 }
 
-const instruction = (text: string) =>
-  `"make as Slack message, short, firendly, profesional, no upper cases, use short abreviations like: u=you, ur=your, i will=ll...
+const DEFAULT_INSTRUCTION =
+  "rewrite as a short, friendly, professional slack message in all lowercase, using common abbreviations (u=you, ur=your, ll=i will): {text}";
 
-  '${text}'"`;
+// Build the user prompt: substitute the selection into {text}, or append it.
+function buildPrompt(template: string, text: string): string {
+  const tpl = template || DEFAULT_INSTRUCTION;
+  return tpl.includes("{text}") ? tpl.replaceAll("{text}", text) : `${tpl}\n\n${text}`;
+}
 
 // Drives the `claude` CLI (Claude Code) on the user's Claude subscription — no
-// API key. GUI apps like Raycast spawn without the shell profile or the parent
-// auth context, so we authenticate explicitly with a long-lived token from
-// `claude setup-token` (CLAUDE_CODE_OAUTH_TOKEN) and prepend claude's own dir to
-// PATH so its `#!/usr/bin/env node` shebang finds node sitting next to it.
+// API key. Args are passed directly to spawn (no shell), so the user's text,
+// instruction, and system prompt can't break or inject into the command.
 export function rephrase(text: string): Promise<string> {
-  const { oauthToken, claudePath, model } = getPreferenceValues<Preferences>();
+  const { oauthToken, claudePath, model, systemPrompt, instruction } = getPreferenceValues<Preferences>();
   const bin = claudePath || "claude";
-  // --no-session-persistence: don't write each rephrase into Claude Code's
-  // resumable thread history (print-mode only).
-  const args = ["-p", "--no-session-persistence", instruction(text)];
+
+  const args = ["-p", "--no-session-persistence", buildPrompt(instruction, text)];
+  if (systemPrompt) args.unshift("--system-prompt", systemPrompt);
   if (model) args.unshift("--model", model);
 
   const env: NodeJS.ProcessEnv = {

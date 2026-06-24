@@ -32,6 +32,22 @@
       "type": "textfield",
       "required": false,
       "default": "sonnet"
+    },
+    {
+      "name": "systemPrompt",
+      "title": "System Prompt",
+      "description": "Passed to `claude --system-prompt` — sets overall behavior.",
+      "type": "textfield",
+      "required": false,
+      "default": "You rewrite the user's text. Output only the rewritten text — no preamble, no quotes, no commentary."
+    },
+    {
+      "name": "instruction",
+      "title": "Instruction",
+      "description": "How to rewrite the selection. Use {text} where the selected text goes (appended if omitted).",
+      "type": "textfield",
+      "required": false,
+      "default": "rewrite as a short, friendly, professional slack message in all lowercase, using common abbreviations (u=you, ur=your, ll=i will): {text}"
     }
   ],
   "commands": [

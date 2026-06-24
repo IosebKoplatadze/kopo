@@ -26,6 +26,8 @@ It runs on your **Claude subscription** via the `claude` CLI (Claude Code), so t
    - **Claude Token** — paste the `setup-token` value.
    - **Claude CLI Path** — full path to `claude` (run `which claude`); defaults to a typical nvm path. Required because Raycast spawns with a minimal PATH.
    - **Model** *(optional)* — e.g. `sonnet`, `opus`; blank uses your Claude Code default.
+   - **System Prompt** *(optional)* — passed to `claude --system-prompt`; sets overall behavior.
+   - **Instruction** *(optional)* — how to rewrite the selection; use `{text}` where the selected text goes (appended if omitted).
 
 ## Usage
 
@@ -33,7 +35,10 @@ Select text anywhere, then run **Kopo** (paste-back) or **Kopo (Modal)** (previe
 
 ## Customizing the rewrite
 
-The prompt lives in one function — edit `instruction()` in [`src/rephrase.ts`](src/rephrase.ts) to change the style (tone, language, format).
+No code edit needed — change it in the extension's preferences:
+
+- **Instruction** controls the style (tone, language, format). Put `{text}` where the selected text should be substituted; if you omit it, the selection is appended.
+- **System Prompt** controls overall behavior (the default keeps the output to just the rewritten text).
 
 ## How it works
 
