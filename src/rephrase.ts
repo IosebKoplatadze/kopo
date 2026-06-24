@@ -21,7 +21,9 @@ const instruction = (text: string) =>
 export function rephrase(text: string): Promise<string> {
   const { oauthToken, claudePath, model } = getPreferenceValues<Preferences>();
   const bin = claudePath || "claude";
-  const args = ["-p", instruction(text)];
+  // --no-session-persistence: don't write each rephrase into Claude Code's
+  // resumable thread history (print-mode only).
+  const args = ["-p", "--no-session-persistence", instruction(text)];
   if (model) args.unshift("--model", model);
 
   const env: NodeJS.ProcessEnv = {
