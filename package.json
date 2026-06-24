@@ -11,46 +11,20 @@
   "license": "MIT",
   "preferences": [
     {
-      "name": "provider",
-      "title": "Provider",
-      "description": "Which API to use for rephrasing",
-      "type": "dropdown",
-      "required": false,
-      "default": "anthropic",
-      "data": [
-        { "title": "Anthropic (Claude)", "value": "anthropic" },
-        { "title": "OpenAI (ChatGPT)", "value": "openai" }
-      ]
-    },
-    {
-      "name": "anthropicApiKey",
-      "title": "Anthropic API Key",
-      "description": "From console.anthropic.com (separate from Claude Pro)",
-      "type": "password",
-      "required": false
-    },
-    {
-      "name": "anthropicModel",
-      "title": "Anthropic Model",
-      "description": "Model ID for the Anthropic provider",
+      "name": "claudePath",
+      "title": "Claude CLI Path",
+      "description": "Path to the `claude` binary (Claude Code), signed in with your subscription. Run `which claude` to find it.",
       "type": "textfield",
       "required": false,
-      "default": "claude-opus-4-8"
+      "default": "/Users/ioseb.koplatadze/.nvm/versions/node/v24.16.0/bin/claude"
     },
     {
-      "name": "openaiApiKey",
-      "title": "OpenAI API Key",
-      "description": "From platform.openai.com (separate from ChatGPT Plus)",
-      "type": "password",
-      "required": false
-    },
-    {
-      "name": "openaiModel",
-      "title": "OpenAI Model",
-      "description": "Model ID for the OpenAI provider",
+      "name": "model",
+      "title": "Model (optional)",
+      "description": "Passed to `claude --model` (e.g. sonnet, opus). Blank = your Claude Code default.",
       "type": "textfield",
       "required": false,
-      "default": "gpt-4o"
+      "default": "sonnet"
     }
   ],
   "commands": [
@@ -68,10 +42,8 @@
     }
   ],
   "dependencies": {
-    "@anthropic-ai/sdk": "^0.70.0",
     "@raycast/api": "^1.104.20",
-    "@raycast/utils": "^1.17.0",
-    "openai": "^6.9.0"
+    "@raycast/utils": "^1.17.0"
   },
   "devDependencies": {
     "@raycast/eslint-config": "^2.0.4",
