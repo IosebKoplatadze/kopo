@@ -11,6 +11,13 @@
   "license": "MIT",
   "preferences": [
     {
+      "name": "oauthToken",
+      "title": "Claude Token",
+      "description": "Run `claude setup-token` in a terminal and paste the token here (uses your Claude subscription, no API key).",
+      "type": "password",
+      "required": false
+    },
+    {
       "name": "claudePath",
       "title": "Claude CLI Path",
       "description": "Path to the `claude` binary (Claude Code), signed in with your subscription. Run `which claude` to find it.",
