@@ -92,11 +92,7 @@ export function rephrase(preset: Preset, text: string): Promise<string> {
     child.stdout.on("data", (d) => (out += d));
     child.stderr.on("data", (d) => (err += d));
     child.on("error", (e: NodeJS.ErrnoException) =>
-      reject(
-        e.code === "ENOENT"
-          ? new Error("Claude CLI not found — set its path in Kopo preferences")
-          : e,
-      ),
+      reject(e.code === "ENOENT" ? new Error("Claude CLI not found — set its path in Kopo preferences") : e),
     );
     child.on("close", (code) => {
       if (code === 0) return resolve(out.trim());

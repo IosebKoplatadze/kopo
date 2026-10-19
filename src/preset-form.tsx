@@ -50,9 +50,17 @@ export function PresetForm({ preset, onSaved }: { preset?: Preset; onSaved: () =
       <Form.TextArea
         id="systemPrompt"
         title="System Prompt"
-        defaultValue={preset?.systemPrompt ?? "You rewrite the user's text. Output only the rewritten text — no preamble, no quotes, no commentary."}
+        defaultValue={
+          preset?.systemPrompt ??
+          "You rewrite the user's text. Output only the rewritten text — no preamble, no quotes, no commentary."
+        }
       />
-      <Form.TextField id="model" title="Model" defaultValue={preset?.model ?? ""} placeholder="sonnet, opus, or blank for default" />
+      <Form.TextField
+        id="model"
+        title="Model"
+        defaultValue={preset?.model ?? ""}
+        placeholder="sonnet, opus, or blank for default"
+      />
       <Form.Dropdown id="mode" title="Output" defaultValue={preset?.mode ?? "paste"}>
         <Form.Dropdown.Item value="paste" title="Paste back over selection" />
         <Form.Dropdown.Item value="modal" title="Show in a modal" />
