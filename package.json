@@ -65,15 +65,15 @@
     }
   ],
   "dependencies": {
-    "@raycast/api": "^1.104.20",
-    "@raycast/utils": "^1.17.0"
+    "@raycast/api": "^2.8.2",
+    "@raycast/utils": "^2.3.2"
   },
   "devDependencies": {
-    "@raycast/eslint-config": "^2.0.4",
-    "@types/node": "^26.0.0",
-    "@types/react": "^19.2.17",
-    "eslint": "^9.22.0",
-    "prettier": "^3.5.3",
+    "@raycast/eslint-config": "^2.2.0",
+    "@types/node": "^26.6.5",
+    "@types/react": "^19.3.0",
+    "eslint": "^10.13.0",
+    "prettier": "^3.9.10",
     "typescript": "^6.0.3"
   },
   "scripts": {
