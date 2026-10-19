@@ -7,12 +7,14 @@ Context for AI coding agents working on **Kopo** — a Raycast extension (TypeSc
 ```sh
 pnpm install
 pnpm run dev        # ray develop — installs the dev extension into Raycast; KEEP RUNNING
-pnpm run build      # ray build — compiles + typechecks all entry points. THIS IS THE FITNESS CHECK.
+pnpm run build      # ray build — bundles all entry points (esbuild; does NOT fail on type errors)
+npx tsc --noEmit    # the real typecheck — run it alongside build
 pnpm run lint       # ray lint  — NOTE: fails on `author` (not a real raycast.com user). Publishing-only; ignore for code work.
 pnpm run fix-lint
 ```
 
-- **`pnpm run build` green = done.** It runs `tsc` over every command entry point. There are no unit tests.
+- **`pnpm run build` + `npx tsc --noEmit` green = done.** There are no unit tests.
+- **TypeScript is held at 6.0.x**: typescript-eslint (via `@raycast/eslint-config`) peers `typescript <6.1`; TS 7 crashes ESLint. Bump only when typescript-eslint supports it. `tsconfig` needs `"types": ["node"]` (TS 6+ no longer auto-includes `@types/*`).
 - To sanity-check the AI call itself, run the underlying command in a terminal:
   `claude -p --no-session-persistence "rewrite as a slack message: hello there"`
 
